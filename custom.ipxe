@@ -1,12 +1,78 @@
 #!ipxe
-###
-### netboot.xyz-custom menu
-###
 
-:start
-echo Hello world!
-sleep 10
-goto custom_exit
+# Proxmox Open Source Products
+# https://www.proxmox.com
 
-:custom_exit
+goto ${menu} ||
+
+:proxmox
+clear proxmox_choice
+clear proxmox_version
+set os Proxmox
+menu ${os}
+item --gap ${os} Backup Server
+item pbs-normal ${space} ${os} Backup Server 2.3-1
+item pbs-debug ${space} ${os} Backup Server 2.3-1 (Debug)
+item --gap ${os} Mail Gateway
+item pmg-normal ${space} ${os} Mail Gateway 7.2-1
+item pmg-debug ${space} ${os} Mail Gateway 7.2-1 (Debug)
+item --gap ${os} VE
+item pve-normal ${space} ${os} VE 7.3-1
+item pve-debug ${space} ${os} VE 7.3-1 (Debug)
+choose proxmox_choice || goto proxmox_exit
+goto ${proxmox_choice}
+
+:pve-normal
+set params splash=silent
+goto boot-pve
+
+:pve-debug
+set params splash=verbose proxdebug
+goto boot-pve
+
+:pmg-normal
+set params splash=silent
+goto boot-pmg
+
+:pmg-debug
+set params splash=verbose proxdebug
+goto boot-pmg
+
+:pbs-normal
+set params splash=silent
+goto boot-pbs
+
+:pbs-debug
+set params splash=verbose proxdebug
+goto boot-pbs
+
+:boot-pbs
+set kernel_url ${live_endpoint}/asset-mirror/releases/download/2.3-1-09769528/
+set proxmox_version 2.3-1
+imgfree
+kernel ${kernel_url}vmlinuz vga=791 video=vesafb:ywrap,mtrr ramdisk_size=16777216 rw quiet ${params} initrd=initrd.magic ${cmdline}
+initrd ${kernel_url}initrd
+# initrd http://download.proxmox.com/iso/proxmox-backup-server_${proxmox_version}.iso /proxmox.iso
+boot
+
+:boot-pmg
+set kernel_url ${live_endpoint}/asset-mirror/releases/download/7.2-1-5c9b0cd6/
+set proxmox_version 7.2-1
+imgfree
+kernel ${kernel_url}vmlinuz vga=791 video=vesafb:ywrap,mtrr ramdisk_size=16777216 rw quiet ${params} initrd=initrd.magic ${cmdline}
+initrd ${kernel_url}initrd
+# initrd http://download.proxmox.com/iso/proxmox-mailgateway_${proxmox_version}.iso /proxmox.iso
+boot
+
+:boot-pve
+set kernel_url ${live_endpoint}/asset-mirror/releases/download/7.3-1-9402a564/
+set proxmox_version 7.3-1
+imgfree
+kernel ${kernel_url}vmlinuz vga=791 video=vesafb:ywrap,mtrr ramdisk_size=16777216 rw quiet ${params} initrd=initrd.magic ${cmdline}
+initrd ${kernel_url}initrd
+# initrd http://download.proxmox.com/iso/proxmox-ve_${proxmox_version}.iso /proxmox.iso
+boot
+
+:proxmox_exit
+clear menu
 exit 0
