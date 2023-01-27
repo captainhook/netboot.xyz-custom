@@ -52,7 +52,7 @@ set proxmox_version 2.3-1
 imgfree
 kernel ${kernel_url}vmlinuz vga=791 video=vesafb:ywrap,mtrr ramdisk_size=16777216 rw quiet ${params} initrd=initrd.magic ${cmdline}
 initrd ${kernel_url}initrd
-initrd http://au.cdn.proxmox.com/iso/proxmox-backup-server_${proxmox_version}.iso /proxmox.iso
+initrd http://na.cdn.proxmox.com/iso/proxmox-backup-server_${proxmox_version}.iso /proxmox.iso
 boot
 
 :boot-pmg
@@ -61,7 +61,7 @@ set proxmox_version 7.2-1
 imgfree
 kernel ${kernel_url}vmlinuz vga=791 video=vesafb:ywrap,mtrr ramdisk_size=16777216 rw quiet ${params} initrd=initrd.magic ${cmdline}
 initrd ${kernel_url}initrd
-initrd http://au.cdn.proxmox.com/iso/proxmox-mailgateway_${proxmox_version}.iso /proxmox.iso
+initrd http://na.cdn.proxmox.com/iso/proxmox-mailgateway_${proxmox_version}.iso /proxmox.iso
 boot
 
 :boot-pve
@@ -70,7 +70,7 @@ set proxmox_version 7.3-1
 imgfree
 kernel ${kernel_url}vmlinuz vga=791 video=vesafb:ywrap,mtrr ramdisk_size=16777216 rw quiet ${params} initrd=initrd.magic ${cmdline}
 initrd ${kernel_url}initrd
-initrd http://au.cdn.proxmox.com/iso/proxmox-ve_${proxmox_version}.iso /proxmox.iso
+initrd http://na.cdn.proxmox.com/iso/proxmox-ve_${proxmox_version}.iso /proxmox.iso
 boot
 
 :proxmox_exit
